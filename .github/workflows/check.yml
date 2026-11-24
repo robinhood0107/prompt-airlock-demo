@@ -1,0 +1,56 @@
+name: Static demo checks
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  static-resources:
+    name: Static resource syntax
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+          fetch-depth: 1
+      - name: Check JavaScript syntax and static resource boundary
+        run: |
+          node --check scenarios.js
+          node --check app.js
+          node --check scripts/serve.mjs
+          node --check tests/check-static.mjs
+          node tests/check-static.mjs
+
+  scenario-contract:
+    name: Fixed scenario contract
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+          fetch-depth: 1
+      - name: Check the three fixed scenarios
+        run: |
+          node --check tests/check-scenarios.mjs
+          node tests/check-scenarios.mjs
+
+  links-and-pages-path:
+    name: Product links and Pages path
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+          fetch-depth: 1
+      - name: Check the links and repository subpath
+        run: |
+          node --check scripts/serve.mjs
+          node --check tests/check-pages-paths.mjs
+          node tests/check-pages-paths.mjs

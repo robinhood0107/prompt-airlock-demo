@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="세 가지 고정 합성 대화 흐름을 읽고 재생하는 정적 데모">
+  <meta name="theme-color" content="#202823">
+  <title>Prompt Airlock | 합성 대화 데모</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./scenarios.js" defer></script>
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#chat-main">대화로 건너뛰기</a>
+  <div class="app-shell">
+    <aside class="sidebar" id="case-sidebar" aria-label="사례 탐색">
+      <div class="sidebar-brand">
+        <span class="brand-title">Prompt Airlock</span>
+        <span class="brand-subtitle">합성 데모</span>
+      </div>
+      <nav class="case-nav" aria-label="합성 사례">
+        <button class="case-choice" type="button" data-case="normal" aria-pressed="true">정상 보호</button>
+        <button class="case-choice" type="button" data-case="confirmation" aria-pressed="false">확인 대기</button>
+        <button class="case-choice" type="button" data-case="blocked" aria-pressed="false">정책 차단</button>
+      </nav>
+      <nav class="sidebar-links" aria-label="제품 안내">
+        <a href="https://github.com/robinhood0107/PromptAirlock/blob/main/deploy/librechat/README.md" target="_blank" rel="noopener noreferrer">설치 안내</a>
+        <a href="https://github.com/robinhood0107/PromptAirlock/blob/main/docs/local-mock-smoke.md" target="_blank" rel="noopener noreferrer">로컬 실행</a>
+      </nav>
+    </aside>
+
+    <button class="sidebar-scrim" id="sidebar-scrim" type="button" aria-label="사례 메뉴 닫기" hidden></button>
+
+    <div class="chat-frame">
+      <header class="mobile-brand-row">
+        <button class="menu-toggle" id="menu-toggle" type="button" aria-label="사례 메뉴 열기" aria-expanded="false" aria-controls="case-sidebar" hidden>
+          <span class="menu-icon" aria-hidden="true"><span></span><span></span><span></span></span>
+        </button>
+        <div class="mobile-brand">
+          <span>Prompt Airlock</span>
+          <small>합성 데모</small>
+        </div>
+      </header>
+
+      <main class="chat-main" id="chat-main">
+        <header class="chat-header">
+          <div class="case-toolbar">
+            <h1 id="case-title">정상 보호</h1>
+            <button class="play-button" id="play-button" type="button" aria-controls="event-list">재생</button>
+          </div>
+        </header>
+
+        <section class="conversation-region" aria-label="합성 대화">
+          <div class="conversation-content">
+            <article class="user-message" aria-label="합성 입력">
+              <p class="message-kind" id="input-label">합성 입력</p>
+              <p class="message-text" id="user-message">합성 대상 A의 일정을 요약해 주세요.</p>
+            </article>
+            <ol class="event-list" id="event-list" aria-label="처리 기록" aria-live="polite"></ol>
+          </div>
+        </section>
+
+        <footer class="chat-footer">
+          <p>정해진 사례를 재생합니다.</p>
+          <button class="reset-button" id="reset-button" type="button">처음부터</button>
+        </footer>
+        <p class="visually-hidden" id="live-status" role="status" aria-live="polite"></p>
+      </main>
+    </div>
+  </div>
+</body>
+</html>
