@@ -44,7 +44,10 @@ try {
   assert.match(subpathHtml, /정상 보호/);
   assert.ok(readme.includes("https://robinhood0107.github.io/prompt-airlock-demo/"));
   const assetTags = Array.from(html.matchAll(/<(?:script|link)\b[^>]*>/gi), match => match[0]);
-  for (const tag of assetTags) {
+  const iconTags = assetTags.filter(tag => /<link\b(?=[^>]*\brel="icon")[^>]*>/i.test(tag));
+  assert.deepEqual(iconTags, ['<link rel="icon" href="data:,">']);
+  const checkedAssetTags = assetTags.filter(tag => !iconTags.includes(tag));
+  for (const tag of checkedAssetTags) {
     const attribute = tag.startsWith("<script") ? "src" : "href";
     const source = tag.match(new RegExp(attribute + '="([^"]+)"'))[1];
     const resolved = new URL(source, pagesRoot);

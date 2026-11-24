@@ -42,7 +42,9 @@ assert.match(css, /max-width:\s*760px/);
 console.log("PASS CSS balance, light/dark theme, focus and mobile rules");
 
 const assetTags = Array.from(html.matchAll(/<(?:script|link)\b[^>]*>/gi), match => match[0]);
-const assets = assetTags.map(function (tag) {
+const iconTags = assetTags.filter(tag => /<link\b(?=[^>]*\brel="icon")[^>]*>/i.test(tag));
+assert.deepEqual(iconTags, ['<link rel="icon" href="data:,">'], "exactly one empty icon is declared");
+const assets = assetTags.filter(tag => !iconTags.includes(tag)).map(function (tag) {
   const attribute = tag.startsWith("<script") ? "src" : "href";
   const match = tag.match(new RegExp(attribute + '="([^"]+)"'));
   assert.ok(match, "static script and stylesheet tags require a local path");
